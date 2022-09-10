@@ -1,0 +1,15 @@
+{
+    "name": "@wayward/oddmagicks",
+    "private": true,
+    "main": "./out/OddMagicks.js",
+    "types": "./out/OddMagicks.d.ts",
+    "scripts": {
+        "clean": "rimraf ./out ./tsconfig.tsbuildinfo",
+        "build": "tsc --build --pretty",
+        "build:mods": "tsc --build --pretty",
+        "watch": "tsc --build --watch --pretty --preserveWatchOutput"
+    },
+    "devDependencies": {
+        "@wayward/types": "^2.0.0"
+    }
+}
