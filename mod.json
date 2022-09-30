@@ -1,0 +1,18 @@
+{
+	"name": "Odd Magicks",
+	"description": "Adds new magical properties into the game and demonstrates some complex modding features.",
+	"version": "1.0",
+	"author": "Chiri Vulpes",
+	"github": "https://github.com/WaywardGame/oddmagicks",
+	"waywardVersion": "2.12.0-beta",
+	"multiplayer": "compatible",
+	"file": "out/OddMagicks",
+	"allowUnlockingMilestones": true,
+	"languages": [
+		"lang/english"
+	],
+	"tags": [
+		"Item"
+	],
+	"publishedFileId": "2869349887"
+}

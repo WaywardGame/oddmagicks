@@ -1,0 +1,8 @@
+{
+	"extends": "English",
+	"dictionaries": {
+		"magicalPropertyType": {
+			"modOddMagicksFloaty": ["floatiness", "A strange wind appears to hold you aloft, reducing the stamina it requires to jump."]
+		}
+	}
+}
