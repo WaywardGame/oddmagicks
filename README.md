@@ -14,6 +14,9 @@ On Linux: path/to/wayward/install/wayward +mod update .
 Open the folder in Visual Studio Code and build with Ctrl+Shift+B.
 
 ## Steam Workshop
-
+[https://steamcommunity.com/sharedfiles/filedetails/?id=2869349887](https://steamcommunity.com/sharedfiles/filedetails/?id=2869349887)
 
 ## Screenshots
+![Odd Magicks](https://raw.githubusercontent.com/WaywardGame/oddmagicks/master/mod.png "Odd Magicks")
+
+![Screenshot #1](https://raw.githubusercontent.com/WaywardGame/oddmagicks/master/screenshot.png "Screenshot #1")
