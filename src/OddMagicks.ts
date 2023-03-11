@@ -32,7 +32,7 @@ export default class OddMagicks extends Mod {
 		}
 
 		const floatyAmount = action.executor.getEquippedItems()
-			.map(item => item.magic.get(this.magicalPropertyFloaty) ?? 0)
+			.map(item => item.magic?.get(this.magicalPropertyFloaty) ?? 0)
 			.splat(Math2.sum);
 
 		const stamina = action.executor.stat.get<IStatMax>(Stat.Stamina)!;
@@ -51,11 +51,13 @@ export default class OddMagicks extends Mod {
 			z: action.executor.z,
 		};
 
+		const jumpTile = action.executor.island.getTileFromPoint(jumpPosition);
+
 		return api.returnValue = {
 			usable: true,
 			stamina,
 			jumpStamina,
-			jumpPosition,
+			jumpTile,
 		};
 	}
 

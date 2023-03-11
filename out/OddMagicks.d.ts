@@ -8,7 +8,6 @@ import { MagicalPropertyType } from "game/magic/MagicalPropertyType";
 import Message from "language/dictionary/Message";
 import Mod from "mod/Mod";
 import { IInjectionApi } from "utilities/class/Inject";
-import { IVector3 } from "utilities/math/IVector";
 export default class OddMagicks extends Mod {
     readonly magicalPropertyFloaty: MagicalPropertyType;
     protected onJumpCanUseHandler(api: IInjectionApi<typeof Jump, "canUseHandler">, action: IActionHandlerApi<Human, IJumpCanUse>): {
@@ -16,14 +15,14 @@ export default class OddMagicks extends Mod {
         message: Message.TooExhaustedToJump;
         stamina?: undefined;
         jumpStamina?: undefined;
-        jumpPosition?: undefined;
+        jumpTile?: undefined;
     } | {
         usable: true;
         stamina: IStatMax & {
             base: IStatMax;
         };
         jumpStamina: number;
-        jumpPosition: IVector3;
+        jumpTile: import("../node_modules/@wayward/types/definitions/game/game/tile/Tile").default;
         message?: undefined;
     } | undefined;
     protected onItemEquipInfoGetMagicalEquipTypes(api: IInjectionApi<typeof ItemEquipInfo["methods"], "getMagicalEquipTypes">, info: IGetUseInfo<typeof ItemEquipInfo>): void;
