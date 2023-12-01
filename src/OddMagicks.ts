@@ -9,19 +9,20 @@
  * https://github.com/WaywardGame/types/wiki
  */
 
-import Jump, { IJumpCanUse } from "game/entity/action/actions/Jump";
-import { IActionHandlerApi } from "game/entity/action/IAction";
-import Human from "game/entity/Human";
-import { IStatMax, Stat } from "game/entity/IStats";
-import ItemEquipInfo from "game/inspection/infoProviders/item/use/ItemEquipInfo";
-import { IGetUseInfo } from "game/inspection/infoProviders/UseInfo";
-import { MagicalPropertyType } from "game/magic/MagicalPropertyType";
-import Message from "language/dictionary/Message";
-import Mod from "mod/Mod";
-import Register from "mod/ModRegistry";
-import { IInjectionApi, InjectionPosition, InjectObject } from "utilities/class/Inject";
-import { IVector3 } from "utilities/math/IVector";
-import Math2 from "utilities/math/Math2";
+import Jump, { IJumpCanUse } from "@wayward/game/game/entity/action/actions/Jump";
+import { IActionHandlerApi } from "@wayward/game/game/entity/action/IAction";
+import Human from "@wayward/game/game/entity/Human";
+import { IStatMax, Stat } from "@wayward/game/game/entity/IStats";
+import ItemEquipInfo from "@wayward/game/game/inspection/infoProviders/item/use/ItemEquipInfo";
+import { IGetUseInfo } from "@wayward/game/game/inspection/infoProviders/UseInfo";
+import { MagicalPropertyType } from "@wayward/game/game/magic/MagicalPropertyType";
+import Message from "@wayward/game/language/dictionary/Message";
+import Mod from "@wayward/game/mod/Mod";
+import Register from "@wayward/game/mod/ModRegistry";
+import { IInjectionApi, InjectionPosition, InjectObject } from "@wayward/utilities/class/Inject";
+import { IVector3 } from "@wayward/game/utilities/math/IVector";
+import Math2 from "@wayward/utilities/math/Math2";
+import Tile from "@wayward/game/game/tile/Tile";
 
 export default class OddMagicks extends Mod {
 
@@ -35,7 +36,7 @@ export default class OddMagicks extends Mod {
 	public readonly magicalPropertyFloaty: MagicalPropertyType;
 
 	@InjectObject(Jump, "canUseHandler", InjectionPosition.Post)
-	protected onJumpCanUseHandler(api: IInjectionApi<typeof Jump, "canUseHandler">, action: IActionHandlerApi<Human, IJumpCanUse>) {
+	protected onJumpCanUseHandler(api: IInjectionApi<typeof Jump, "canUseHandler">, action: IActionHandlerApi<Human, IJumpCanUse>): { usable: false; message: Message.TooExhaustedToJump; stamina?: undefined; jumpStamina?: undefined; jumpTile?: undefined; } | { usable: true; stamina: IStatMax & { base: IStatMax; }; jumpStamina: number; jumpTile: Tile; message?: undefined; } | undefined {
 		const canUse = api.returnValue;
 		if (!canUse?.usable && canUse?.message !== Message.TooExhaustedToJump) {
 			// do nothing, the jump failed for some other reason than not enough stamina
@@ -73,12 +74,12 @@ export default class OddMagicks extends Mod {
 	}
 
 	@InjectObject(ItemEquipInfo.methods, "getMagicalEquipTypes", InjectionPosition.Post)
-	protected onItemEquipInfoGetMagicalEquipTypes(api: IInjectionApi<typeof ItemEquipInfo["methods"], "getMagicalEquipTypes">, info: IGetUseInfo<typeof ItemEquipInfo>) {
+	protected onItemEquipInfoGetMagicalEquipTypes(api: IInjectionApi<typeof ItemEquipInfo["methods"], "getMagicalEquipTypes">, info: IGetUseInfo<typeof ItemEquipInfo>): void {
 		api.returnValue?.add(this.magicalPropertyFloaty);
 	}
 
 	@InjectObject(ItemEquipInfo.methods, "isMagicalPropertyPercentage", InjectionPosition.Post)
-	protected onItemEquipInfoIsMagicalPropertyPercentage(api: IInjectionApi<typeof ItemEquipInfo["methods"], "isMagicalPropertyPercentage">, info: IGetUseInfo<typeof ItemEquipInfo>, type: MagicalPropertyType) {
+	protected onItemEquipInfoIsMagicalPropertyPercentage(api: IInjectionApi<typeof ItemEquipInfo["methods"], "isMagicalPropertyPercentage">, info: IGetUseInfo<typeof ItemEquipInfo>, type: MagicalPropertyType): void {
 		if (type === this.magicalPropertyFloaty) {
 			api.returnValue = true;
 		}
