@@ -9,28 +9,29 @@
  * https://github.com/WaywardGame/types/wiki
  */
 
-import Jump, { IJumpCanUse } from "@wayward/game/game/entity/action/actions/Jump";
-import { IActionHandlerApi } from "@wayward/game/game/entity/action/IAction";
 import Human from "@wayward/game/game/entity/Human";
 import { IStatMax, Stat } from "@wayward/game/game/entity/IStats";
-import ItemEquipInfo from "@wayward/game/game/inspection/infoProviders/item/use/ItemEquipInfo";
+import { IActionHandlerApi } from "@wayward/game/game/entity/action/IAction";
+import Jump, { IJumpCanUse } from "@wayward/game/game/entity/action/actions/Jump";
 import { IGetUseInfo } from "@wayward/game/game/inspection/infoProviders/UseInfo";
+import ItemEquipInfo from "@wayward/game/game/inspection/infoProviders/item/use/ItemEquipInfo";
 import { MagicalPropertyType } from "@wayward/game/game/magic/MagicalPropertyType";
+import Tile from "@wayward/game/game/tile/Tile";
 import Message from "@wayward/game/language/dictionary/Message";
 import Mod from "@wayward/game/mod/Mod";
 import Register from "@wayward/game/mod/ModRegistry";
-import { IInjectionApi, InjectionPosition, InjectObject } from "@wayward/utilities/class/Inject";
 import { IVector3 } from "@wayward/game/utilities/math/IVector";
+import { IInjectionApi, InjectObject, InjectionPosition } from "@wayward/utilities/class/Inject";
 import Math2 from "@wayward/utilities/math/Math2";
-import Tile from "@wayward/game/game/tile/Tile";
 
 export default class OddMagicks extends Mod {
 
 	@Register.magicalProperty("floaty", {
 		isApplicable: (item, itemDescription) => !!itemDescription.equip,
 		getInfo: item => ({
+			min: 0.05,
 			max: 0.3,
-			value: () => 0.05 + item.island.seededRandom.float() * 0.2,
+			value: () => 0.05 + item.island.seededRandom.float(0.2),
 		}),
 	})
 	public readonly magicalPropertyFloaty: MagicalPropertyType;
