@@ -4,7 +4,7 @@ import { IActionHandlerApi } from "@wayward/game/game/entity/action/IAction";
 import Jump, { IJumpCanUse } from "@wayward/game/game/entity/action/actions/Jump";
 import { IGetUseInfo } from "@wayward/game/game/inspection/infoProviders/UseInfo";
 import ItemEquipInfo from "@wayward/game/game/inspection/infoProviders/item/use/ItemEquipInfo";
-import { MagicalPropertyType } from "@wayward/game/game/magic/MagicalPropertyType";
+import MagicalPropertyType from "@wayward/game/game/magic/MagicalPropertyType";
 import Tile from "@wayward/game/game/tile/Tile";
 import Message from "@wayward/game/language/dictionary/Message";
 import Mod from "@wayward/game/mod/Mod";
