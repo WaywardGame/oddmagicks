@@ -1,16 +1,19 @@
-import Human from "@wayward/game/game/entity/Human";
-import { IStatMax, Stat } from "@wayward/game/game/entity/IStats";
-import { IActionHandlerApi } from "@wayward/game/game/entity/action/IAction";
-import Jump, { IJumpCanUse } from "@wayward/game/game/entity/action/actions/Jump";
-import { IGetUseInfo } from "@wayward/game/game/inspection/infoProviders/UseInfo";
+import type Human from "@wayward/game/game/entity/Human";
+import type { IStatMax } from "@wayward/game/game/entity/IStats";
+import { Stat } from "@wayward/game/game/entity/IStats";
+import type { IActionHandlerApi } from "@wayward/game/game/entity/action/IAction";
+import type { IJumpCanUse } from "@wayward/game/game/entity/action/actions/Jump";
+import Jump from "@wayward/game/game/entity/action/actions/Jump";
+import type { IGetUseInfo } from "@wayward/game/game/inspection/infoProviders/UseInfo";
 import ItemEquipInfo from "@wayward/game/game/inspection/infoProviders/item/use/ItemEquipInfo";
-import MagicalPropertyType from "@wayward/game/game/magic/MagicalPropertyType";
-import Tile from "@wayward/game/game/tile/Tile";
+import type MagicalPropertyType from "@wayward/game/game/magic/MagicalPropertyType";
+import type Tile from "@wayward/game/game/tile/Tile";
 import Message from "@wayward/game/language/dictionary/Message";
 import Mod from "@wayward/game/mod/Mod";
 import Register from "@wayward/game/mod/ModRegistry";
-import { IVector3 } from "@wayward/game/utilities/math/IVector";
-import { IInjectionApi, InjectObject, InjectionPosition } from "@wayward/utilities/class/Inject";
+import type { IVector3 } from "@wayward/game/utilities/math/IVector";
+import type { IInjectionApi } from "@wayward/utilities/class/Inject";
+import { InjectObject, InjectionPosition } from "@wayward/utilities/class/Inject";
 import Math2 from "@wayward/utilities/math/Math2";
 
 export default class OddMagicks extends Mod {
@@ -26,7 +29,7 @@ export default class OddMagicks extends Mod {
 	public readonly magicalPropertyFloaty: MagicalPropertyType;
 
 	@InjectObject(Jump, "canUseHandler", InjectionPosition.Post)
-	protected onJumpCanUseHandler(api: IInjectionApi<typeof Jump, "canUseHandler">, action: IActionHandlerApi<Human, IJumpCanUse>): { usable: false; message: Message.TooExhaustedToJump; stamina?: undefined; jumpStamina?: undefined; jumpTile?: undefined; } | { usable: true; stamina: IStatMax & { base: IStatMax; }; jumpStamina: number; jumpTile: Tile; message?: undefined; } | undefined {
+	protected onJumpCanUseHandler(api: IInjectionApi<typeof Jump, "canUseHandler">, action: IActionHandlerApi<Human, IJumpCanUse>): { usable: false; message: Message.TooExhaustedToJump; stamina?: undefined; jumpStamina?: undefined; jumpTile?: undefined } | { usable: true; stamina: IStatMax & { base: IStatMax }; jumpStamina: number; jumpTile: Tile; message?: undefined } | undefined {
 		const canUse = api.returnValue;
 		if (!canUse?.usable && canUse?.message !== Message.TooExhaustedToJump) {
 			// do nothing, the jump failed for some other reason than not enough stamina
