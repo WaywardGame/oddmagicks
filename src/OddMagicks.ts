@@ -1,41 +1,35 @@
-/*!
- * Copyright 2011-2023 Unlok
- * https://www.unlok.ca
- *
- * Credits & Thanks:
- * https://www.unlok.ca/credits-thanks/
- *
- * Wayward is a copyrighted and licensed work. Modification and/or distribution of any source files is prohibited. If you wish to modify the game in any way, please refer to the modding guide:
- * https://github.com/WaywardGame/types/wiki
- */
-
-import Jump, { IJumpCanUse } from "game/entity/action/actions/Jump";
-import { IActionHandlerApi } from "game/entity/action/IAction";
-import Human from "game/entity/Human";
-import { IStatMax, Stat } from "game/entity/IStats";
-import ItemEquipInfo from "game/inspection/infoProviders/item/use/ItemEquipInfo";
-import { IGetUseInfo } from "game/inspection/infoProviders/UseInfo";
-import { MagicalPropertyType } from "game/magic/MagicalPropertyType";
-import Message from "language/dictionary/Message";
-import Mod from "mod/Mod";
-import Register from "mod/ModRegistry";
-import { IInjectionApi, InjectionPosition, InjectObject } from "utilities/class/Inject";
-import { IVector3 } from "utilities/math/IVector";
-import Math2 from "utilities/math/Math2";
+import type Human from "@wayward/game/game/entity/Human";
+import type { IStatMax } from "@wayward/game/game/entity/IStats";
+import { Stat } from "@wayward/game/game/entity/IStats";
+import type { IActionHandlerApi } from "@wayward/game/game/entity/action/IAction";
+import type { IJumpCanUse } from "@wayward/game/game/entity/action/actions/Jump";
+import Jump from "@wayward/game/game/entity/action/actions/Jump";
+import type { IGetUseInfo } from "@wayward/game/game/inspection/infoProviders/UseInfo";
+import ItemEquipInfo from "@wayward/game/game/inspection/infoProviders/item/use/ItemEquipInfo";
+import type MagicalPropertyType from "@wayward/game/game/magic/MagicalPropertyType";
+import type Tile from "@wayward/game/game/tile/Tile";
+import Message from "@wayward/game/language/dictionary/Message";
+import Mod from "@wayward/game/mod/Mod";
+import Register from "@wayward/game/mod/ModRegistry";
+import type { IVector3 } from "@wayward/game/utilities/math/IVector";
+import type { IInjectionApi } from "@wayward/utilities/class/Inject";
+import { InjectObject, InjectionPosition } from "@wayward/utilities/class/Inject";
+import Math2 from "@wayward/utilities/math/Math2";
 
 export default class OddMagicks extends Mod {
 
 	@Register.magicalProperty("floaty", {
 		isApplicable: (item, itemDescription) => !!itemDescription.equip,
 		getInfo: item => ({
+			min: 0.05,
 			max: 0.3,
-			value: () => 0.05 + item.island.seededRandom.float() * 0.2,
+			value: () => 0.05 + item.island.seededRandom.float(0.2),
 		}),
 	})
 	public readonly magicalPropertyFloaty: MagicalPropertyType;
 
 	@InjectObject(Jump, "canUseHandler", InjectionPosition.Post)
-	protected onJumpCanUseHandler(api: IInjectionApi<typeof Jump, "canUseHandler">, action: IActionHandlerApi<Human, IJumpCanUse>) {
+	protected onJumpCanUseHandler(api: IInjectionApi<typeof Jump, "canUseHandler">, action: IActionHandlerApi<Human, IJumpCanUse>): { usable: false; message: Message.TooExhaustedToJump; stamina?: undefined; jumpStamina?: undefined; jumpTile?: undefined } | { usable: true; stamina: IStatMax & { base: IStatMax }; jumpStamina: number; jumpTile: Tile; message?: undefined } | undefined {
 		const canUse = api.returnValue;
 		if (!canUse?.usable && canUse?.message !== Message.TooExhaustedToJump) {
 			// do nothing, the jump failed for some other reason than not enough stamina
@@ -73,12 +67,12 @@ export default class OddMagicks extends Mod {
 	}
 
 	@InjectObject(ItemEquipInfo.methods, "getMagicalEquipTypes", InjectionPosition.Post)
-	protected onItemEquipInfoGetMagicalEquipTypes(api: IInjectionApi<typeof ItemEquipInfo["methods"], "getMagicalEquipTypes">, info: IGetUseInfo<typeof ItemEquipInfo>) {
+	protected onItemEquipInfoGetMagicalEquipTypes(api: IInjectionApi<typeof ItemEquipInfo["methods"], "getMagicalEquipTypes">, info: IGetUseInfo<typeof ItemEquipInfo>): void {
 		api.returnValue?.add(this.magicalPropertyFloaty);
 	}
 
 	@InjectObject(ItemEquipInfo.methods, "isMagicalPropertyPercentage", InjectionPosition.Post)
-	protected onItemEquipInfoIsMagicalPropertyPercentage(api: IInjectionApi<typeof ItemEquipInfo["methods"], "isMagicalPropertyPercentage">, info: IGetUseInfo<typeof ItemEquipInfo>, type: MagicalPropertyType) {
+	protected onItemEquipInfoIsMagicalPropertyPercentage(api: IInjectionApi<typeof ItemEquipInfo["methods"], "isMagicalPropertyPercentage">, info: IGetUseInfo<typeof ItemEquipInfo>, type: MagicalPropertyType): void {
 		if (type === this.magicalPropertyFloaty) {
 			api.returnValue = true;
 		}
