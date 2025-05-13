@@ -7,6 +7,7 @@ import Jump from "@wayward/game/game/entity/action/actions/Jump";
 import type { IGetUseInfo } from "@wayward/game/game/inspection/infoProviders/UseInfo";
 import ItemEquipInfo from "@wayward/game/game/inspection/infoProviders/item/use/ItemEquipInfo";
 import type MagicalPropertyType from "@wayward/game/game/magic/MagicalPropertyType";
+import { MagicalPropertyInfoHelper } from "@wayward/game/game/magic/MagicalPropertyType";
 import type Tile from "@wayward/game/game/tile/Tile";
 import Message from "@wayward/game/language/dictionary/Message";
 import Mod from "@wayward/game/mod/Mod";
@@ -23,7 +24,7 @@ export default class OddMagicks extends Mod {
 		getInfo: item => ({
 			min: 0.05,
 			max: 0.3,
-			value: () => 0.05 + item.island.seededRandom.float(0.2),
+			value: () => 0.05 + MagicalPropertyInfoHelper.randomFloat(item, 0.2),
 		}),
 	})
 	public readonly magicalPropertyFloaty: MagicalPropertyType;
