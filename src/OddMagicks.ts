@@ -13,8 +13,8 @@ import Message from "@wayward/game/language/dictionary/Message";
 import Mod from "@wayward/game/mod/Mod";
 import Register from "@wayward/game/mod/ModRegistry";
 import type { IVector3 } from "@wayward/game/utilities/math/IVector";
-import type { IInjectionApi } from "@wayward/utilities/class/Inject";
-import { InjectObject, InjectionPosition } from "@wayward/utilities/class/Inject";
+import type { IInjectionApi } from "@wayward/game/utilities/Inject";
+import { InjectObject, InjectionPosition } from "@wayward/game/utilities/Inject";
 import Math2 from "@wayward/utilities/math/Math2";
 
 export default class OddMagicks extends Mod {
