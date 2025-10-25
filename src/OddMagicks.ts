@@ -7,14 +7,14 @@ import Jump from "@wayward/game/game/entity/action/actions/Jump";
 import type { IGetUseInfo } from "@wayward/game/game/inspection/infoProviders/UseInfo";
 import ItemEquipInfo from "@wayward/game/game/inspection/infoProviders/item/use/ItemEquipInfo";
 import type MagicalPropertyType from "@wayward/game/game/magic/MagicalPropertyType";
-import { MagicalPropertyInfoHelper } from "@wayward/game/game/magic/MagicalPropertyType";
+import { MagicalPropertyInfoHelper } from "@wayward/game/game/magic/MagicalPropertyDescriptions";
 import type Tile from "@wayward/game/game/tile/Tile";
 import Message from "@wayward/game/language/dictionary/Message";
 import Mod from "@wayward/game/mod/Mod";
 import Register from "@wayward/game/mod/ModRegistry";
 import type { IVector3 } from "@wayward/game/utilities/math/IVector";
-import type { IInjectionApi } from "@wayward/utilities/class/Inject";
-import { InjectObject, InjectionPosition } from "@wayward/utilities/class/Inject";
+import type { IInjectionApi } from "@wayward/game/utilities/Inject";
+import { InjectObject, InjectionPosition } from "@wayward/game/utilities/Inject";
 import Math2 from "@wayward/utilities/math/Math2";
 
 export default class OddMagicks extends Mod {
